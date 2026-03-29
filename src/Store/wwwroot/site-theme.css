@@ -1,0 +1,87 @@
+/* ── Light theme (default) ─────────────────────────────────────────── */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #212529;
+    --sidebar-start: rgb(5, 39, 103);
+    --sidebar-end: #3a0647;
+    --top-row-bg: #f7f7f7;
+    --top-row-border: #d6d5d5;
+    --link-color: #0071c1;
+    --nav-link-color: #d7d7d7;
+    --nav-active-bg: rgba(255, 255, 255, 0.25);
+    --nav-hover-bg: rgba(255, 255, 255, 0.1);
+    --card-bg: #ffffff;
+    --card-border: #dee2e6;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --transition-speed: 0.3s;
+}
+
+/* ── Dark theme ────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --sidebar-start: #0d0d1a;
+    --sidebar-end: #1a0d2e;
+    --top-row-bg: #1e1e2e;
+    --top-row-border: #2e2e4e;
+    --link-color: #58a6ff;
+    --nav-link-color: #b0b0c0;
+    --nav-active-bg: rgba(255, 255, 255, 0.15);
+    --nav-hover-bg: rgba(255, 255, 255, 0.08);
+    --card-bg: #1e1e2e;
+    --card-border: #2e2e4e;
+    --input-bg: #2a2a3e;
+    --input-border: #3e3e5e;
+}
+
+/* ── Apply variables ───────────────────────────────────────────────── */
+html,
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
+}
+
+a,
+.btn-link {
+    color: var(--link-color);
+    transition: color var(--transition-speed) ease;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    transition: background-color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+}
+
+.form-control,
+.form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
+}
+
+/* ── Theme toggle icon visibility ──────────────────────────────────── */
+/* Light mode: show moon (click to go dark), hide sun */
+.theme-icon-sun {
+    display: none;
+}
+
+.theme-icon-moon {
+    display: inline-flex;
+}
+
+/* Dark mode: show sun (click to go light), hide moon */
+[data-theme="dark"] .theme-icon-sun {
+    display: inline-flex;
+}
+
+[data-theme="dark"] .theme-icon-moon {
+    display: none;
+}
