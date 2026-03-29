@@ -3,6 +3,7 @@
 @using Store.Services
 @inject IConfiguration Configuration
 @inject ProductService ProductService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 @attribute [StreamRendering(true)]
 
@@ -27,7 +28,7 @@ else
     <div class="products-grid">
         @foreach (var p in products)
         {
-            <div class="product-card">
+            <div class="product-card" @onclick="() => NavigateToProduct(p.Id)" role="button" tabindex="0" @onkeydown="(e) => HandleKeyDown(e, p.Id)">
                 <div class="product-image">
                     @if (!string.IsNullOrEmpty(p.ImageUrl))
                     {
@@ -66,5 +67,18 @@ else
         if (string.IsNullOrEmpty(imagePrefix))
             return imageUrl;
         return $"{imagePrefix.TrimEnd('/')}/{imageUrl.TrimStart('/')}";
+    }
+
+    private void NavigateToProduct(int productId)
+    {
+        NavigationManager.NavigateTo($"/product/{productId}");
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e, int productId)
+    {
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            NavigateToProduct(productId);
+        }
     }
 }

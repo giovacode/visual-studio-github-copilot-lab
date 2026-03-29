@@ -1,0 +1,76 @@
+@page "/product/{id:int}"
+@using DataEntities
+@using Store.Services
+@inject IConfiguration Configuration
+@inject ProductService ProductService
+@rendermode InteractiveServer
+
+<PageTitle>@(product?.Name ?? "Product Detail")</PageTitle>
+
+<div class="product-detail-container">
+    @if (loading)
+    {
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+        </div>
+    }
+    else if (product == null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Product not found</h4>
+            <p>The product you're looking for doesn't exist.</p>
+        </div>
+    }
+    else
+    {
+        <a href="/products" class="back-button">← Back to Products</a>
+
+        <div class="product-detail-wrapper">
+            <div class="product-image-section">
+                @if (!string.IsNullOrEmpty(product.ImageUrl))
+                {
+                    <img src="@GetFullImageUrl(product.ImageUrl)" alt="@product.Name" class="product-image-large" />
+                }
+                else
+                {
+                    <div class="no-image-large">No image available</div>
+                }
+            </div>
+
+            <div class="product-info-section">
+                <h1 class="product-title">@product.Name</h1>
+
+                <div class="product-price-section">
+                    <span class="product-price-label">Price:</span>
+                    <span class="product-price-large">@product.Price.ToString("C")</span>
+                </div>
+
+                <div class="product-description-section">
+                    <h3>Description</h3>
+                    <p class="product-description">@product.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product? product;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+        product = await ProductService.GetProductById(Id);
+        loading = false;
+    }
+
+    private string GetFullImageUrl(string imageUrl)
+    {
+        var imagePrefix = Configuration["ImagePrefix"];
+        return $"{imagePrefix}{imageUrl}";
+    }
+}
